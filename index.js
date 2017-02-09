@@ -43,10 +43,11 @@ app.post('/webhook/', function (req, res) {
             if (event.message && event.message.text) {
                 let text = event.message.text
 
-                // if the sender isn't in a pair w/ a wizard/user already
+                // if the sender is in a pair with a wizard/user already, just send messages directly
                 if ( sender in userWizardPairs ) {
                         directBackAndForth(userWizardPairs[sender], text)
                 }
+                // otherwise, send new message to the wizards (if they're not a wizard) or spin up a pair if they are
                 else {
                     if (sender !== "1275795099175001") {
                         startWizards(1275795099175001, sender, text.substring(0, 200))
